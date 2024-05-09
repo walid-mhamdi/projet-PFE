@@ -1,6 +1,10 @@
 package ouachousoft.BackEnd0.service;
 
 import lombok.AllArgsConstructor;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ouachousoft.BackEnd0.TypeDeRole;
@@ -13,9 +17,10 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 
+
 @AllArgsConstructor
 @Service
-public class UtilisateurService {
+public class UtilisateurService implements UserDetailsService {
 
     private UtilisateurRepository utilisateurRepository;
     private BCryptPasswordEncoder passwordEncoder;
@@ -63,5 +68,12 @@ public class UtilisateurService {
                 .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
         utilisateurActive.setActif(true);
         utilisateurRepository.save(utilisateurActive); // Sauvegarder l'état actif de l'utilisateur
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        return this.utilisateurRepository
+                .findByEmail(username).orElseThrow(() ->new UsernameNotFoundException("Utilisateur non trouvé avec l'email: " + username));
     }
 }

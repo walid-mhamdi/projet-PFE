@@ -3,10 +3,14 @@ package ouachousoft.BackEnd0.controller;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ouachousoft.BackEnd0.dto.AuthentificationDTO;
 import ouachousoft.BackEnd0.entity.Utilisateur;
 import ouachousoft.BackEnd0.service.UtilisateurService;
 
@@ -19,6 +23,7 @@ import java.util.Map;
 @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 public class UtilisateurControleur {
 
+    private AuthenticationManager authenticationManager;
     private UtilisateurService utilisateurService;
 
     @PostMapping(path = "inscription")
@@ -31,5 +36,15 @@ public class UtilisateurControleur {
     public void inscription(@RequestBody Map<String, String> activation){
 
         this.utilisateurService.activation(activation);
+    }
+    @PostMapping(path = "connexion")
+    public Map<String, String> connexion(@RequestBody AuthentificationDTO authentificationDTO){
+        final Authentication authenticate= authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(authentificationDTO.username(),authentificationDTO.password())
+        );
+        log.info("resultat{}",authenticate.isAuthenticated()
+        );
+
+        return null;
     }
 }
