@@ -14,6 +14,8 @@ import ouachousoft.BackEnd0.entity.Validation;
 import ouachousoft.BackEnd0.repository.UtilisateurRepository;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
@@ -63,17 +65,42 @@ public class UtilisateurService implements UserDetailsService {
             throw new RuntimeException("Code de validation expiré");
         }
 
+        // Vérifier si le code est déjà utilisé
+        if (validation.getCode() == null) {
+            throw new RuntimeException("Code de validation déjà utilisé");
+        }
+
         // Activer l'utilisateur
         Utilisateur utilisateurActive = utilisateurRepository.findById(validation.getUtilisateur().getId())
                 .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
         utilisateurActive.setActif(true);
+
+
+
+        // Mettre à jour le code à null
+        validation.setCode(null);
+        // Mettre à jour la date d'activation
+        Instant activationTime = Instant.now().plus(1, ChronoUnit.HOURS);
+        validation.setActivation(activationTime);
         utilisateurRepository.save(utilisateurActive); // Sauvegarder l'état actif de l'utilisateur
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        return this.utilisateurRepository
-                .findByEmail(username).orElseThrow(() ->new UsernameNotFoundException("Utilisateur non trouvé avec l'email: " + username));
-    }
+
+
+    //  @Override
+  //  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+      //  return this.utilisateurRepository.findByEmail(username).orElseThrow(() ->new UsernameNotFoundException("Utilisateur non trouvé avec l'email: " + username));
+   // }
+      @Override
+      public Utilisateur loadUserByUsername(String username) throws UsernameNotFoundException {
+          Optional<Utilisateur> utilisateurOptional = utilisateurRepository.findByEmail(username);
+          if (utilisateurOptional.isPresent()) {
+              return utilisateurOptional.get();
+          } else {
+              throw new UsernameNotFoundException("Utilisateur non trouvé avec l'email: " + username);
+          }
+      }
+
 }
