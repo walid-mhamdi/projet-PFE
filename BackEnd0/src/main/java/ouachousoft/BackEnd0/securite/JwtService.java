@@ -6,7 +6,10 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.transaction.Transactional;
+import jdk.jshell.execution.Util;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ouachousoft.BackEnd0.entity.Jwt;
 import ouachousoft.BackEnd0.entity.Utilisateur;
@@ -15,9 +18,12 @@ import ouachousoft.BackEnd0.service.UtilisateurService;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
+@Transactional
 @AllArgsConstructor
 @Service
 public class JwtService {
@@ -28,8 +34,8 @@ public class JwtService {
 
 
     public Jwt tokenByValue(String value) {
-      return this.jwtRepository.findByValue(value)
-              .orElseThrow(() ->new RuntimeException("token inconnu "));
+      return this.jwtRepository.findByValueAndDesactiveAndExpire(value,false,false)
+              .orElseThrow(() ->new RuntimeException("token inconnu ou inconnu "));
 
     }
 
@@ -51,6 +57,17 @@ public class JwtService {
 
         return jwtMap;
 
+    }
+
+    private void disableTokens(Utilisateur utilisateur){
+        final List<Jwt> jwtList = this.jwtRepository.findUtilisateur(utilisateur.getEmail()).peek(
+                jwt -> {
+                    jwt.setExpire(true);
+                    jwt.setDesactive(true);
+
+                }).collect(Collectors.toList());
+
+        this.jwtRepository.saveAll(jwtList);
     }
     public String extractUsername(String token) {
         return this.getClaim(token, Claims::getSubject);
@@ -106,5 +123,18 @@ public class JwtService {
     }
 
 
+    public void deconnexion() {
+        // Récupérer l'utilisateur actuellement authentifié
+        Utilisateur utilisateur = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        // Rechercher un jeton valide pour cet utilisateur
+        Jwt jwt = this.jwtRepository.findUtilisateurValidToken(utilisateur.getEmail(), false, false)
+                .orElseThrow(() -> new RuntimeException("Token invalide"));
+
+        // Mettre à jour le jeton (si nécessaire)
+        jwt.setExpire(true);
+        jwt.setDesactive(true); // Mettre le jeton comme désactivé
+        this.jwtRepository.save(jwt);
+    }
 
 }

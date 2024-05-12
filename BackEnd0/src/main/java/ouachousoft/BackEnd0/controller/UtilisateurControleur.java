@@ -54,6 +54,17 @@ public class UtilisateurControleur {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PostMapping(path = "deconnexion")
+    public void deconnexion(){
+        this.jwtService.deconnexion();
+    }
+
+
+
+
+
+
     @PostMapping(path = "connexion")
     public ResponseEntity<Map<String, String>> connexion(@RequestBody AuthentificationDTO authentificationDTO) {
         try {
