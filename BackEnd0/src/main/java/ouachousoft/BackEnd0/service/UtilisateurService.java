@@ -2,6 +2,7 @@ package ouachousoft.BackEnd0.service;
 
 import lombok.AllArgsConstructor;
 
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

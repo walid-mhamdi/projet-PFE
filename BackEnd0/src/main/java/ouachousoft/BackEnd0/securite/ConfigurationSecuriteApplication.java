@@ -42,6 +42,8 @@ public class ConfigurationSecuriteApplication {
                                 authorize.requestMatchers("/inscription").permitAll()
                                          .requestMatchers("/activation").permitAll()
                                         .requestMatchers("/connexion").permitAll()
+                                        .requestMatchers("/avis").permitAll() // Requires authentication for /avis endpoint
+
 
                                         .anyRequest().authenticated()
                                 )

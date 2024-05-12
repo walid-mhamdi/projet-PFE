@@ -8,7 +8,9 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ouachousoft.BackEnd0.entity.Jwt;
 import ouachousoft.BackEnd0.entity.Utilisateur;
+import ouachousoft.BackEnd0.repository.JwtRepository;
 import ouachousoft.BackEnd0.service.UtilisateurService;
 
 import java.security.Key;
@@ -19,12 +21,35 @@ import java.util.function.Function;
 @AllArgsConstructor
 @Service
 public class JwtService {
+    public static final String BEARER = "bearer";
     private final String ENCRIPTION_KEY="044ec15fad591b1225b461ecb9baeba6377ec3af3ca191a61c15f5b2b8c47bab";
     private UtilisateurService utilisateurService;
+    private JwtRepository jwtRepository;
+
+
+    public Jwt tokenByValue(String value) {
+      return this.jwtRepository.findByValue(value)
+              .orElseThrow(() ->new RuntimeException("token inconnu "));
+
+    }
+
+
     public Map<String, String> generate(String username){
         Utilisateur utilisateur = (Utilisateur) this.utilisateurService.loadUserByUsername(username);
 
-        return this.generateJwt(utilisateur);
+        final Map<String, String> jwtMap = this.generateJwt(utilisateur);
+
+        final Jwt jwt = Jwt
+                .builder()
+                .value(jwtMap.get(BEARER))
+                .desactive(false)
+                .expire(false)
+                .utilisateur(utilisateur)
+                .build();
+
+        this.jwtRepository.save(jwt);
+
+        return jwtMap;
 
     }
     public String extractUsername(String token) {
