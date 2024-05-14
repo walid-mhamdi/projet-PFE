@@ -9,6 +9,8 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.transaction.Transactional;
 import jdk.jshell.execution.Util;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ouachousoft.BackEnd0.entity.Jwt;
@@ -17,12 +19,14 @@ import ouachousoft.BackEnd0.repository.JwtRepository;
 import ouachousoft.BackEnd0.service.UtilisateurService;
 
 import java.security.Key;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Transactional
 @AllArgsConstructor
 @Service
@@ -31,6 +35,8 @@ public class JwtService {
     private final String ENCRIPTION_KEY="044ec15fad591b1225b461ecb9baeba6377ec3af3ca191a61c15f5b2b8c47bab";
     private UtilisateurService utilisateurService;
     private JwtRepository jwtRepository;
+
+
 
 
     public Jwt tokenByValue(String value) {
@@ -42,6 +48,9 @@ public class JwtService {
 
     public Map<String, String> generate(String username){
         Utilisateur utilisateur = (Utilisateur) this.utilisateurService.loadUserByUsername(username);
+
+        // Désactiver tous les tokens existants pour cet utilisateur
+        disableTokens(utilisateur);
 
         final Map<String, String> jwtMap = this.generateJwt(utilisateur);
 
@@ -135,6 +144,13 @@ public class JwtService {
         jwt.setExpire(true);
         jwt.setDesactive(true); // Mettre le jeton comme désactivé
         this.jwtRepository.save(jwt);
+    }
+
+    @Scheduled(cron = "0 */1 * * * *") // Exécuter tous les jours à minuit
+    public void removeUselessJwt(){
+        log.info("Suppression des token a {}", Instant.now());
+        this.jwtRepository.deleteAllByExpireAndDesactive(true,true);
+
     }
 
 }
