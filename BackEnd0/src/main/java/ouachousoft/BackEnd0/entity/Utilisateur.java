@@ -22,7 +22,8 @@ import java.util.List;
 public class Utilisateur implements UserDetails {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private int id;
     @Column(name = "mot_de_passe")
     private  String mdp;

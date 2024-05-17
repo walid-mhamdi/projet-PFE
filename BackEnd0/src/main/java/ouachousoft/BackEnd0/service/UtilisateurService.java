@@ -17,6 +17,7 @@ import ouachousoft.BackEnd0.repository.UtilisateurRepository;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -65,35 +66,19 @@ public class UtilisateurService implements UserDetailsService {
         if (Instant.now().isAfter(validation.getExpiration())) {
             throw new RuntimeException("Code de validation expiré");
         }
-
         // Vérifier si le code est déjà utilisé
         if (validation.getCode() == null) {
             throw new RuntimeException("Code de validation déjà utilisé");
         }
-
         // Activer l'utilisateur
         Utilisateur utilisateurActive = utilisateurRepository.findById(validation.getUtilisateur().getId())
                 .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
         utilisateurActive.setActif(true);
 
+        this.utilisateurRepository.save(utilisateurActive); // Sauvegarder l'état actif de l'utilisateur
 
-
-        // Mettre à jour le code à null
-        validation.setCode(null);
-        // Mettre à jour la date d'activation
-        Instant activationTime = Instant.now().plus(1, ChronoUnit.HOURS);
-        validation.setActivation(activationTime);
-        utilisateurRepository.save(utilisateurActive); // Sauvegarder l'état actif de l'utilisateur
     }
 
-
-
-
-    //  @Override
-  //  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-      //  return this.utilisateurRepository.findByEmail(username).orElseThrow(() ->new UsernameNotFoundException("Utilisateur non trouvé avec l'email: " + username));
-   // }
       @Override
       public Utilisateur loadUserByUsername(String username) throws UsernameNotFoundException {
           Optional<Utilisateur> utilisateurOptional = utilisateurRepository.findByEmail(username);
@@ -104,4 +89,28 @@ public class UtilisateurService implements UserDetailsService {
           }
       }
 
+
+    public void modifieMotDePasse(Map<String, String> parameters) {
+
+        Utilisateur utilisateur = this.loadUserByUsername(parameters.get("email"));
+        // Trouver tous les enregistrements de validation associés à cet utilisateur
+        List<Validation> validations = validationService.findAllByUtilisateur(utilisateur);
+
+        // Supprimer tous les enregistrements de validation
+        for (Validation validation : validations) {
+            validationService.supprimer(validation);
+        }
+        validationService.enregistrer(utilisateur);
+    }
+
+      public void nouveauMotDePasse(Map<String, String> parameters) {
+        Utilisateur utilisateur = this.loadUserByUsername(parameters.get("email"));
+        final Validation validation = validationService.lireEnFonctionDuCode(parameters.get("code"));
+        if (validation.getUtilisateur().getEmail().equals(utilisateur.getEmail()))
+        {
+        String mdpCrypte = this.passwordEncoder.encode(parameters.get("password"));
+        utilisateur.setMdp(mdpCrypte);
+        this.utilisateurRepository.save(utilisateur);
+        }
+    }
 }

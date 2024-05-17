@@ -41,7 +41,7 @@ public class JwtService {
 
     public Jwt tokenByValue(String value) {
       return this.jwtRepository.findByValueAndDesactiveAndExpire(value,false,false)
-              .orElseThrow(() ->new RuntimeException("token inconnu ou inconnu "));
+              .orElseThrow(() ->new RuntimeException("token invalide ou inconnu "));
 
     }
 

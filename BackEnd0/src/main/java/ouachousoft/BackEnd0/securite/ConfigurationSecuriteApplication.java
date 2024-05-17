@@ -43,8 +43,8 @@ public class ConfigurationSecuriteApplication {
                                          .requestMatchers("/activation").permitAll()
                                         .requestMatchers("/connexion").permitAll()
                                         .requestMatchers("/avis").permitAll() // Requires authentication for /avis endpoint
-                                        .requestMatchers("/deconnexion").permitAll()
-
+                                        .requestMatchers("/modifie-mot-de-passe").permitAll()
+                                        .requestMatchers("/nouveau-mot-de-passe").permitAll()
 
 
                                         .anyRequest().authenticated()

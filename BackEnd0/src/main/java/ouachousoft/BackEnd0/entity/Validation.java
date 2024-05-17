@@ -18,7 +18,7 @@ import java.time.Instant;
 public class Validation {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
 
@@ -26,9 +26,11 @@ public class Validation {
     private Instant expiration;
     private Instant activation;
     private  String code;
-    private String email; // Nouveau champ pour l'email
+    private String email;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
+
+
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
     private Utilisateur utilisateur;
 }

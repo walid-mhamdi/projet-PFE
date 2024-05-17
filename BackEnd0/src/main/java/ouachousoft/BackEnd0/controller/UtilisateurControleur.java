@@ -1,14 +1,14 @@
 package ouachousoft.BackEnd0.controller;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,23 +18,23 @@ import ouachousoft.BackEnd0.entity.Utilisateur;
 import ouachousoft.BackEnd0.securite.JwtService;
 import ouachousoft.BackEnd0.service.UtilisateurService;
 
-import java.awt.*;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@AllArgsConstructor
+//@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 public class UtilisateurControleur {
 
-    private AuthenticationManager authenticationManager;
-    private UtilisateurService utilisateurService;
-    private JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
+    private final UtilisateurService utilisateurService;
+    private final JwtService jwtService;
 
     @PostMapping(path = "inscription")
-    public ResponseEntity<String> inscription(@RequestBody Utilisateur utilisateur){
+    public ResponseEntity<String> inscription(@RequestBody Utilisateur utilisateur) {
         try {
             utilisateurService.inscription(utilisateur);
             return ResponseEntity.ok("Inscription successful");
@@ -43,7 +43,20 @@ public class UtilisateurControleur {
         }
     }
 
+    @PostMapping(path = "modifie-mot-de-passe")
+    public ResponseEntity<String> modifieMotDePasse(@RequestBody Map<String, String> activation) {
+        try {
+            utilisateurService.modifieMotDePasse(activation);
+            return ResponseEntity.ok("Le processus de modification du mot de passe a commencé avec succès");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
+    @PostMapping(path = "nouveau-mot-de-passe")
+    public void nouveauMotDePasse(@RequestBody Map<String, String> activation) {
+        this.utilisateurService.nouveauMotDePasse(activation);
+    }
 
     @PostMapping(path = "activation")
     public ResponseEntity<String> activation(@RequestBody Map<String, String> activation) {
@@ -55,35 +68,30 @@ public class UtilisateurControleur {
         }
     }
 
-    @PostMapping(path = "deconnexion")
-    public void deconnexion(){
-        this.jwtService.deconnexion();
-    }
-
-
-
-
-
-
     @PostMapping(path = "connexion")
     public ResponseEntity<Map<String, String>> connexion(@RequestBody AuthentificationDTO authentificationDTO) {
         try {
-            final Authentication authenticate = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authentificationDTO.username(), authentificationDTO.password())
-            );
+            final Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authentificationDTO.email(), authentificationDTO.password()));
 
             if (authenticate.isAuthenticated()) {
-                Map<String, String> response = this.jwtService.generate(authentificationDTO.username());
+                Map<String, String> response = this.jwtService.generate(authentificationDTO.email());
                 response = new HashMap<>(response); // Create a mutable copy
                 response.put("message", "Connecté");
                 return ResponseEntity.ok(response);
+
             } else {
-                // Authentication failed
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("message", "Email ou mot de passe incorrect"));
+                // Authentication failed due to other reasons
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("message", "Erreur d'authentification"));
             }
-        } catch (UsernameNotFoundException e) {
-            // Username not found (email does not exist)
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("message", "Email non trouvé"));
+        } catch (BadCredentialsException e) {
+            // Invalid email or password
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("message", "Email ou mot de passe incorrect"));
         }
+    }
+
+
+    @PostMapping(path = "deconnexion")
+    public void deconnexion() {
+        this.jwtService.deconnexion();
     }
 }
