@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 @Transactional
 @AllArgsConstructor
 @Service
+
 public class JwtService {
     public static final String BEARER = "bearer";
     private final String ENCRIPTION_KEY="044ec15fad591b1225b461ecb9baeba6377ec3af3ca191a61c15f5b2b8c47bab";

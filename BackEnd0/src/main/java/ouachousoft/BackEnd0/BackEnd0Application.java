@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 @SpringBootApplication
+
 //@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class BackEnd0Application {
 

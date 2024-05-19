@@ -9,10 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ouachousoft.BackEnd0.dto.AuthentificationDTO;
 import ouachousoft.BackEnd0.entity.Utilisateur;
 import ouachousoft.BackEnd0.securite.JwtService;
@@ -27,6 +24,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin(origins = "http://localhost:4200",methods ={ RequestMethod.GET,RequestMethod.DELETE,RequestMethod.POST,RequestMethod.PUT})  // Ajout de cette ligne pour permettre les requêtes CORS depuis localhost:4200
+
 public class UtilisateurControleur {
 
     private final AuthenticationManager authenticationManager;

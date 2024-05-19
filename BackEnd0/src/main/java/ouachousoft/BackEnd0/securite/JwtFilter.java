@@ -15,6 +15,7 @@ import ouachousoft.BackEnd0.service.UtilisateurService;
 import java.io.IOException;
 
 @Service
+
 public class JwtFilter extends OncePerRequestFilter {
    private  UtilisateurService utilisateurService;
    private JwtService jwtService;
