@@ -45,6 +45,7 @@ public class ConfigurationSecuriteApplication {
                                         .requestMatchers("/avis").permitAll() // Requires authentication for /avis endpoint
                                         .requestMatchers("/modifie-mot-de-passe").permitAll()
                                         .requestMatchers("/nouveau-mot-de-passe").permitAll()
+                                        .requestMatchers("delete/{id}").permitAll() // Requires authentication for /avis endpoint
 
 
                                         .anyRequest().authenticated()

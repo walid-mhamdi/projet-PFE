@@ -93,4 +93,15 @@ public class UtilisateurControleur {
     public void deconnexion() {
         this.jwtService.deconnexion();
     }
+
+    @DeleteMapping(path = "delete/{id}")
+    public ResponseEntity<String> supprimerUtilisateur(@PathVariable int id) {
+        try {
+            utilisateurService.supprimerUtilisateur(id);
+            return ResponseEntity.ok("Utilisateur supprimé avec succès");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
 }

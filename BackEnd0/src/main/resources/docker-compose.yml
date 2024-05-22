@@ -2,17 +2,14 @@ version: '3.1'
 
 services:
 
-  db:
-    container_name: mysql-8.0.36
-    image: mysql:8.0.36
-    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
-    # (this is just an example, not intended to be a production configuration)
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
+  oracle:
+    image: 'gvenzl/oracle-free:latest'
     environment:
-      MYSQL_ROOT_PASSWORD:
+      - 'ORACLE_RANDOM_PASSWORD=true'
+      - 'APP_USER=PERSONS_DB'
+      - 'APP_USER_PASSWORD=Lider0ne'
     ports:
-      - 3308:3306
+      - 1521:1521
 
   adminer:
     container_name: mysql-8.0.36

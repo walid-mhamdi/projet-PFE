@@ -23,8 +23,14 @@ public class Utilisateur implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private int id;
+
+    @OneToOne(mappedBy = "utilisateur", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Validation validation;
+
+    @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Jwt> jwtList;
+
     @Column(name = "mot_de_passe")
     private  String mdp;
     private  String nom;

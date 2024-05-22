@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {Router} from "@angular/router";
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8090/api'; // URL de ton backend
+  private apiUrl = 'http://localhost:8090/api'; // URL de votre backend
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -23,6 +23,12 @@ export class AuthService {
         return response;
       }));
   }
+
+  signUp(nom: string, mdp: string, email: string): Observable<any> {
+    const utilisateur = { nom, mdp, email };
+    return this.http.post<any>('http://localhost:8090/api/inscription', utilisateur);
+  }
+
   get token(): string | null {
     return localStorage.getItem('token');
   }

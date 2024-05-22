@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMethod;
 import ouachousoft.BackEnd0.TypeDeRole;
 import ouachousoft.BackEnd0.entity.Role;
 import ouachousoft.BackEnd0.entity.Utilisateur;
@@ -24,6 +26,8 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Service
+@CrossOrigin(origins = "http://localhost:4200",methods ={ RequestMethod.GET,RequestMethod.DELETE,RequestMethod.POST,RequestMethod.PUT})  // Ajout de cette ligne pour permettre les requêtes CORS depuis localhost:4200
+
 public class UtilisateurService implements UserDetailsService {
 
     private UtilisateurRepository utilisateurRepository;
@@ -113,4 +117,17 @@ public class UtilisateurService implements UserDetailsService {
         this.utilisateurRepository.save(utilisateur);
         }
     }
+
+    public void supprimerUtilisateur(int id) {
+        Optional<Utilisateur> utilisateur = utilisateurRepository.findById(id);
+        if (utilisateur.isPresent()) {
+            Utilisateur user = utilisateur.get();
+            utilisateurRepository.delete(user);
+
+            //utilisateurRepository.delete(utilisateur.get());
+        } else {
+            throw new RuntimeException("Utilisateur introuvable");
+        }
+    }
+
 }
