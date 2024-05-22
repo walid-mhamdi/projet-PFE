@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ouachousoft.BackEnd0.dto.AuthentificationDTO;
+import ouachousoft.BackEnd0.dto.InscriptionDTO;
 import ouachousoft.BackEnd0.entity.Utilisateur;
 import ouachousoft.BackEnd0.securite.JwtService;
 import ouachousoft.BackEnd0.service.UtilisateurService;
@@ -32,15 +33,18 @@ public class UtilisateurControleur {
     private final UtilisateurService utilisateurService;
     private final JwtService jwtService;
 
+
+
     @PostMapping(path = "inscription")
-    public ResponseEntity<String> inscription(@RequestBody Utilisateur utilisateur) {
+    public ResponseEntity<String> inscription(@RequestBody InscriptionDTO inscriptionDTO) {
         try {
-            utilisateurService.inscription(utilisateur);
-            return ResponseEntity.ok("Inscription successful");
+            utilisateurService.inscription(inscriptionDTO);
+            return ResponseEntity.ok("Inscription réussie");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
 
     @PostMapping(path = "modifie-mot-de-passe")
     public ResponseEntity<String> modifieMotDePasse(@RequestBody Map<String, String> activation) {
@@ -52,10 +56,12 @@ public class UtilisateurControleur {
         }
     }
 
+
     @PostMapping(path = "nouveau-mot-de-passe")
     public void nouveauMotDePasse(@RequestBody Map<String, String> activation) {
         this.utilisateurService.nouveauMotDePasse(activation);
     }
+
 
     @PostMapping(path = "activation")
     public ResponseEntity<String> activation(@RequestBody Map<String, String> activation) {
@@ -66,6 +72,7 @@ public class UtilisateurControleur {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 
     @PostMapping(path = "connexion")
     public ResponseEntity<Map<String, String>> connexion(@RequestBody AuthentificationDTO authentificationDTO) {
@@ -93,6 +100,8 @@ public class UtilisateurControleur {
     public void deconnexion() {
         this.jwtService.deconnexion();
     }
+
+
 
     @DeleteMapping(path = "delete/{id}")
     public ResponseEntity<String> supprimerUtilisateur(@PathVariable int id) {

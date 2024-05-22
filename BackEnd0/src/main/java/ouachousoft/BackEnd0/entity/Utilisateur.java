@@ -32,16 +32,21 @@ public class Utilisateur implements UserDetails {
     private List<Jwt> jwtList;
 
     @Column(name = "mot_de_passe")
-    private  String mdp;
-    private  String nom;
-    private  String email;
-    private  boolean actif = false;
-    @OneToOne(cascade = CascadeType.ALL)
+    private String mdp;
+
+    private String nom;
+
+    private String email;
+
+    private boolean actif = false;
+
+    @ManyToOne
+    @JoinColumn(name = "role_libelle", referencedColumnName = "libelle")
     private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE"+this.role.getLibelle()));
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + this.role.getLibelle()));
     }
 
     @Override
