@@ -2,8 +2,6 @@ package ouachousoft.BackEnd0.service;
 
 import lombok.AllArgsConstructor;
 
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,8 +15,6 @@ import ouachousoft.BackEnd0.entity.Validation;
 import ouachousoft.BackEnd0.repository.UtilisateurRepository;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
