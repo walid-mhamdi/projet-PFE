@@ -9,7 +9,7 @@ services:
       - 'APP_USER=PERSONS_DB'
       - 'APP_USER_PASSWORD=Lider0ne'
     ports:
-      - 1521:1521
+      - 1520:1521
 
   adminer:
     container_name: mysql-8.0.36

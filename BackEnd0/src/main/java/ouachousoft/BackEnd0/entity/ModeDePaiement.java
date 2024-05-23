@@ -6,24 +6,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ouachousoft.BackEnd0.TypeDeRole;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.util.List;
+import ouachousoft.BackEnd0.TypeModeDePaiement;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "role")
-public class Role {
+@Table(name ="mode_de_paiement")
+public class ModeDePaiement {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    private int id;
+
+    private String code;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "libelle")
-    private TypeDeRole libelle;
+    private TypeModeDePaiement libelle;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "role")
-    private List<Utilisateur> utilisateurs;
 }
-

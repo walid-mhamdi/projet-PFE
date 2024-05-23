@@ -38,13 +38,25 @@ public class ConfigurationSecuriteApplication {
                 httpSecurity
                         .csrf(AbstractHttpConfigurer::disable)
                         .authorizeHttpRequests(authorize ->
-                                authorize.requestMatchers("/inscription").permitAll()
+                                authorize.requestMatchers("/avis").permitAll()
+
+                                        .requestMatchers("/inscription").permitAll()
                                          .requestMatchers("/activation").permitAll()
                                         .requestMatchers("/connexion").permitAll()
-                                        .requestMatchers("/avis").permitAll() // Requires authentication for /avis endpoint
                                         .requestMatchers("/modifie-mot-de-passe").permitAll()
                                         .requestMatchers("/nouveau-mot-de-passe").permitAll()
-                                        .requestMatchers("delete/{id}").permitAll() // Requires authentication for /avis endpoint
+                                        .requestMatchers("delete/{id}").permitAll()
+
+                                        .requestMatchers("/pays").permitAll()
+                                        .requestMatchers("/pays/{id}").permitAll()
+
+                                        .requestMatchers("/ville").permitAll()
+                                        .requestMatchers("/ville/{id}").permitAll()
+
+                                        .requestMatchers("/mode_de_paiement").permitAll()
+                                        .requestMatchers("/mode_de_paiement/{id}").permitAll()
+
+
 
 
                                         .anyRequest().authenticated()
