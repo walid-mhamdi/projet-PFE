@@ -15,7 +15,6 @@ export class LoginComponent {
 
   errorMessage: string = '';
   isLoginTab: boolean = true; // Pour basculer entre les onglets de connexion et d'inscription
-  isSignUpSuccess: boolean = false; // Ajout d'une propriété pour suivre l'état de l'inscription
   signUpSuccessMessage: string = ''; // Ajout d'une propriété pour le message de succès
 
   constructor(private authService: AuthService, private router: Router) { }

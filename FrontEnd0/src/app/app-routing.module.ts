@@ -3,11 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import {LoginComponent} from "./login/login.component";
 import {authGuard} from "./guard/auth.guard";
+import {PasswordResetComponent} from "./password-reset/password-reset.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   {path: 'login',component:LoginComponent},// Redirection par défaut vers 'home'
   { path: 'home', component: HomeComponent, canActivate:[authGuard] },
+  {path: 'password-reset' ,component: PasswordResetComponent},
 
   // Ajoute d'autres routes ici
 ];

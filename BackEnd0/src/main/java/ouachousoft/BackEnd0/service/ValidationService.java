@@ -37,8 +37,10 @@ public class ValidationService {
         // Set the email here (you can retrieve this from the utilisateur or pass it as a parameter)
         validation.setEmail(utilisateur.getEmail()); // Assuming Utilisateur has an getEmail() method
 
-        this.validationRepository.save(validation);
         this.notificationService.envoyer(validation);
+        this.validationRepository.save(validation);
+
+
     }
 
     public Validation lireEnFonctionDuCode(String code) {

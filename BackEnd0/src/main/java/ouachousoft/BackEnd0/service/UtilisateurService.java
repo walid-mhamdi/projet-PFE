@@ -107,10 +107,19 @@ public class UtilisateurService implements UserDetailsService {
     public void nouveauMotDePasse(Map<String, String> parameters) {
         Utilisateur utilisateur = this.loadUserByUsername(parameters.get("email"));
         Validation validation = validationService.lireEnFonctionDuCode(parameters.get("code"));
+
         if (validation.getUtilisateur().getEmail().equals(utilisateur.getEmail())) {
             String mdpCrypte = this.passwordEncoder.encode(parameters.get("password"));
             utilisateur.setMdp(mdpCrypte);
+
+            // Activate the account if it is not already active
+            if (!utilisateur.isActif()) {
+                utilisateur.setActif(true);
+            }
+
             this.utilisateurRepository.save(utilisateur);
+        } else {
+            throw new RuntimeException("Code de validation invalide");
         }
     }
 
