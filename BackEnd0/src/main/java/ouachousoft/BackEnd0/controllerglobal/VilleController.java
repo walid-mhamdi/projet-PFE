@@ -11,6 +11,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ville")
+@CrossOrigin(origins = "http://localhost:4200",methods ={ RequestMethod.GET,RequestMethod.DELETE,RequestMethod.POST,RequestMethod.PUT})  // Ajout de cette ligne pour permettre les requêtes CORS depuis localhost:4200
+
 public class VilleController {
 
     @Autowired
@@ -67,6 +69,17 @@ public class VilleController {
             return ResponseEntity.ok("Ville with ID " + id + " was successfully deleted.");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ville with ID " + id + " was not found.");
+        }
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateVille(@PathVariable int id, @RequestBody Ville ville) {
+        Ville existingVille = villeService.getVilleById(id);
+        if (existingVille != null) {
+            ville.setId(id); // Assurez-vous que l'ID de la ville est correctement défini
+            Ville updatedVille = villeService.updateVille(ville);
+            return ResponseEntity.ok(updatedVille);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 

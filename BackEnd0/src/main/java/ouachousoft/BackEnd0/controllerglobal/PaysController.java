@@ -12,6 +12,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/pays")
+@CrossOrigin(origins = "http://localhost:4200",methods ={ RequestMethod.GET,RequestMethod.DELETE,RequestMethod.POST,RequestMethod.PUT})  // Ajout de cette ligne pour permettre les requêtes CORS depuis localhost:4200
+
 public class PaysController {
 
     @Autowired
@@ -73,4 +75,24 @@ public class PaysController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pays with ID " + id + " was not found.");
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updatePays(@PathVariable int id, @RequestBody Pays pays) {
+        if (pays.getCode() == null || pays.getLibelle() == null) {
+            return ResponseEntity.badRequest().body("Le code et le nom de pays doivent être fournis.");
+        }
+
+        if (pays.getCode().isEmpty() || pays.getLibelle().isEmpty()) {
+            return ResponseEntity.badRequest().body("Le code et le nom de pays ne peuvent pas être vides.");
+        }
+
+        pays.setId(id);
+        try {
+            Pays updatedPays = paysService.updatePays(pays);
+            return ResponseEntity.ok(updatedPays);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
 }

@@ -5,8 +5,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ouachousoft.BackEnd0.TypeDeRole;
 import ouachousoft.BackEnd0.dto.InscriptionDTO;
+import ouachousoft.BackEnd0.dto.PasswordValidator;
 import ouachousoft.BackEnd0.entity.Role;
 import ouachousoft.BackEnd0.entity.Utilisateur;
 import ouachousoft.BackEnd0.entity.Validation;
@@ -27,19 +27,20 @@ public class UtilisateurService implements UserDetailsService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final ValidationService validationService;
 
+    public List<Utilisateur> getAllUtilisateurs() {
+        return utilisateurRepository.findAll();
+    }
     public void inscription(InscriptionDTO inscriptionDTO) {
-        // Vérifier la validité de l'adresse email
+
         if (!inscriptionDTO.getEmail().contains("@") || !inscriptionDTO.getEmail().contains(".")) {
             throw new RuntimeException("Adresse email invalide");
         }
 
-        // Vérifier si l'adresse email est déjà utilisée
         Optional<Utilisateur> utilisateurOptional = utilisateurRepository.findByEmail(inscriptionDTO.getEmail());
         if (utilisateurOptional.isPresent()) {
             throw new RuntimeException("Adresse email déjà utilisée");
         }
 
-        // Vérifier si le nom est fourni
         if (inscriptionDTO.getNom() == null || inscriptionDTO.getNom().isEmpty()) {
             throw new RuntimeException("Le nom est obligatoire");
         }
@@ -47,13 +48,11 @@ public class UtilisateurService implements UserDetailsService {
         // Crypter le mot de passe
         String mdpCrypte = passwordEncoder.encode(inscriptionDTO.getMdp());
 
-        // Créer un nouvel utilisateur
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setNom(inscriptionDTO.getNom());
         utilisateur.setEmail(inscriptionDTO.getEmail());
         utilisateur.setMdp(mdpCrypte);
 
-        // Définir le rôle de l'utilisateur
         Role roleUtilisateur = roleRepository.findById(inscriptionDTO.getRole())
                 .orElseGet(() -> {
                     Role newRole = new Role();
@@ -63,10 +62,8 @@ public class UtilisateurService implements UserDetailsService {
 
         utilisateur.setRole(roleUtilisateur);
 
-        // Enregistrer l'utilisateur dans la base de données
         utilisateur = utilisateurRepository.save(utilisateur);
 
-        // Enregistrer une validation pour l'utilisateur
         validationService.enregistrer(utilisateur);
     }
 
@@ -92,27 +89,41 @@ public class UtilisateurService implements UserDetailsService {
         Utilisateur utilisateurActive = utilisateurRepository.findById(validation.getUtilisateur().getId())
                 .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
         utilisateurActive.setActif(true);
+        // Ajout de la date d'activation à la validation
+        validation.setActivation(Instant.now());
         this.utilisateurRepository.save(utilisateurActive);
     }
 
     public void modifieMotDePasse(Map<String, String> parameters) {
-        Utilisateur utilisateur = this.loadUserByUsername(parameters.get("email"));
-        List<Validation> validations = validationService.findAllByUtilisateur(utilisateur);
-        for (Validation validation : validations) {
-            validationService.supprimer(validation);
+        String email = parameters.get("email");
+        if (email == null || email.isEmpty()) {
+            throw new RuntimeException("Email non fourni");
         }
-        validationService.enregistrer(utilisateur);
+
+        Utilisateur utilisateur = this.loadUserByUsername(email);
+        if (utilisateur == null) {
+            throw new RuntimeException("Utilisateur non trouvé");
+        }
+
+        this.validationService.enregistrer(utilisateur);
     }
+
 
     public void nouveauMotDePasse(Map<String, String> parameters) {
         Utilisateur utilisateur = this.loadUserByUsername(parameters.get("email"));
         Validation validation = validationService.lireEnFonctionDuCode(parameters.get("code"));
 
         if (validation.getUtilisateur().getEmail().equals(utilisateur.getEmail())) {
+
+            String nouveauMotDePasse = parameters.get("password");
+            String passwordValidationMessage = PasswordValidator.validatePassword(nouveauMotDePasse);
+            if (passwordValidationMessage != null) {
+                throw new RuntimeException(passwordValidationMessage);
+            }
+
             String mdpCrypte = this.passwordEncoder.encode(parameters.get("password"));
             utilisateur.setMdp(mdpCrypte);
 
-            // Activate the account if it is not already active
             if (!utilisateur.isActif()) {
                 utilisateur.setActif(true);
             }

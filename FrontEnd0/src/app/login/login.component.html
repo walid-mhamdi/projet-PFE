@@ -7,7 +7,7 @@
             <input id="tab-1" type="radio" name="tab" class="sign-in" [checked]="isLoginTab" (click)="toggleTab(true)">
             <label for="tab-1" class="tab">Login</label>
             <input id="tab-2" type="radio" name="tab" class="sign-up" [checked]="!isLoginTab" (click)="toggleTab(false)">
-            <label for="tab-2" class="tab">Sign Up</label>
+            <label for="tab-2" class="tab"></label>
             <div class="login-space">
               <div class="login" *ngIf="isLoginTab">
                 <div class="group">
@@ -27,34 +27,10 @@
                 </div>
                 <div class="hr"></div>
                 <div class="foot">
-                  <a href="#">Forgot Password?</a>
+                  <a routerLink="/forgot-password">Forgot Password?</a>
                 </div>
               </div>
-              <div class="sign-up-form" *ngIf="!isLoginTab">
-                <div class="group">
-                  <label for="nom" class="label form-label">Username</label>
-                  <input id="nom" type="text" class="input" placeholder="Create your Username" [(ngModel)]="nom">
-                </div>
-                <div class="group">
-                  <label for="mdp" class="label form-label">Password</label>
-                  <input id="mdp" type="password" class="input" placeholder="Create your password" [(ngModel)]="mdp">
-                </div>
-                <div class="group">
-                  <label for="newEmail" class="label form-label">Email</label>
-                  <input id="newEmail" type="text" class="input" placeholder="Enter your email address" [(ngModel)]="email">
-                </div>
-                <div class="group">
-                  <button (click)="signUp()" class="button">Sign Up</button>
-                </div>
-                <div class="alert alert-success" *ngIf="signUpSuccessMessage">
-                  {{ signUpSuccessMessage }}
-                </div>
 
-                <div class="hr"></div>
-                <div class="foot">
-                  <label (click)="toggleTab(true)">Activation</label>
-                </div>
-              </div>
             </div>
           </div>
         </div>

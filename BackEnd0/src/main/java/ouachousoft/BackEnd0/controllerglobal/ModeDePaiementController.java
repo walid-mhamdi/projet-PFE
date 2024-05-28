@@ -11,6 +11,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/mode_de_paiement")
+@CrossOrigin(origins = "http://localhost:4200",methods ={ RequestMethod.GET,RequestMethod.DELETE,RequestMethod.POST,RequestMethod.PUT})  // Ajout de cette ligne pour permettre les requêtes CORS depuis localhost:4200
+
 public class ModeDePaiementController {
 
     @Autowired

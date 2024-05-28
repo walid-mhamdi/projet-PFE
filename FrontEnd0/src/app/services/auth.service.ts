@@ -23,12 +23,6 @@ export class AuthService {
         return response;
       }));
   }
-
-  signUp(nom: string, mdp: string, email: string): Observable<any> {
-    const utilisateur = { nom, mdp, email };
-    return this.http.post<any>('http://localhost:8090/api/inscription', utilisateur);
-  }
-
   get token(): string | null {
     return localStorage.getItem('token');
   }
@@ -42,5 +36,11 @@ export class AuthService {
   isLoggedIn(): boolean {
     // Vérifier si le token JWT est présent dans le local storage
     return !!localStorage.getItem('token');
+  }
+  resetPassword(email: string): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const body = { email };
+
+    return this.http.post<any>(`${this.apiUrl}/modifie-mot-de-passe`, body, { headers });
   }
 }

@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import ouachousoft.BackEnd0.dto.AuthentificationDTO;
 import ouachousoft.BackEnd0.dto.InscriptionDTO;
 import ouachousoft.BackEnd0.entity.Utilisateur;
+import ouachousoft.BackEnd0.repository.UtilisateurRepository;
 import ouachousoft.BackEnd0.securite.JwtService;
 import ouachousoft.BackEnd0.service.UtilisateurService;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -32,10 +34,14 @@ public class UtilisateurControleur {
     private final AuthenticationManager authenticationManager;
     private final UtilisateurService utilisateurService;
     private final JwtService jwtService;
+    private final UtilisateurRepository utilisateurRepository;
 
+    @GetMapping("/utilisateurs")
+    public List<Utilisateur> getUtilisateurs() {
+        return utilisateurRepository.findAll(); // Cela récupérera tous les utilisateurs de la base de données
+    }
 
-
-    @PostMapping(path = "inscription")
+    @PostMapping(path = "/inscription")
     public ResponseEntity<String> inscription(@RequestBody InscriptionDTO inscriptionDTO) {
         try {
             utilisateurService.inscription(inscriptionDTO);
@@ -47,14 +53,17 @@ public class UtilisateurControleur {
 
 
     @PostMapping(path = "modifie-mot-de-passe")
-    public ResponseEntity<String> modifieMotDePasse(@RequestBody Map<String, String> activation) {
+    public ResponseEntity<Map<String, String>> modifieMotDePasse(@RequestBody Map<String, String> activation) {
         try {
             utilisateurService.modifieMotDePasse(activation);
-            return ResponseEntity.ok("Le processus de modification du mot de passe a commencé avec succès");
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Un email de réinitialisation de mot de passe a été envoyé.");
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(Collections.singletonMap("error", e.getMessage()));
         }
     }
+
 
 
     @PostMapping(path = "nouveau-mot-de-passe")

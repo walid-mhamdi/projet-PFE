@@ -56,6 +56,24 @@ public class ConfigurationSecuriteApplication {
                                         .requestMatchers("/mode_de_paiement").permitAll()
                                         .requestMatchers("/mode_de_paiement/{id}").permitAll()
 
+                                        .requestMatchers("/operations").permitAll()
+                                        .requestMatchers("/operations/{id}").permitAll()
+
+
+                                        .requestMatchers("/banque").permitAll()
+                                        .requestMatchers("/banque/{id}").permitAll()
+
+
+                                        .requestMatchers("/nationalite").permitAll()
+                                        .requestMatchers("/nationalite/{id}").permitAll()
+
+
+                                        .requestMatchers("/qualite").permitAll()
+                                        .requestMatchers("/qualite/{id}").permitAll()
+
+                                        .requestMatchers("/utilisateurs").permitAll()
+
+
 
 
 

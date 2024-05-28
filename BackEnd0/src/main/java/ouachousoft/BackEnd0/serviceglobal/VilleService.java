@@ -50,5 +50,17 @@ public class VilleService {
             return false;
         }
     }
+    @Transactional
+    public Ville updateVille(Ville ville) {
+        Optional<Ville> existingVille = villeRepository.findById(ville.getId());
+        if (existingVille.isPresent()) {
+            Ville updatedVille = existingVille.get();
+            updatedVille.setCode(ville.getCode());
+            updatedVille.setVille(ville.getVille());
+            return villeRepository.save(updatedVille);
+        } else {
+            throw new RuntimeException("Ville not found with id " + ville.getId());
+        }
+    }
 
 }

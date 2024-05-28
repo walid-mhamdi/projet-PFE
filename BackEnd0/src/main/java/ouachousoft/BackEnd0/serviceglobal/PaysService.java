@@ -43,4 +43,15 @@ public boolean deletePays(int id) {
         return paysRepository.findBylibelle(libelle);
 
     }
+    public Pays updatePays(Pays pays) {
+        Optional<Pays> existingPays = paysRepository.findById(pays.getId());
+        if (existingPays.isPresent()) {
+            Pays updatedPays = existingPays.get();
+            updatedPays.setCode(pays.getCode());
+            updatedPays.setLibelle(pays.getLibelle());
+            return paysRepository.save(updatedPays);
+        } else {
+            throw new RuntimeException("Pays not found with id " + pays.getId());
+        }
+    }
 }

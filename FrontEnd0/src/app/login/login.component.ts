@@ -39,23 +39,6 @@ export class LoginComponent {
     }
   }
 
-
-  signUp() {
-    if (this.isValidEmail(this.email)) {
-      this.authService.signUp(this.nom, this.mdp, this.email).subscribe({
-        next: (response) => {
-          this.signUpSuccessMessage = response; // Message de succès récupéré du backend
-        },
-        error: () => {
-          this.errorMessage = 'Échec de l\'inscription. Veuillez réessayer.';
-        }
-      });
-    } else {
-      this.errorMessage = 'Veuillez entrer une adresse email valide.';
-    }
-  }
-
-
   toggleTab(isLogin: boolean) {
     this.isLoginTab = isLogin;
   }
