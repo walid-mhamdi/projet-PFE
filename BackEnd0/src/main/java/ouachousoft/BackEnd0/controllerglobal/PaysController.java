@@ -5,7 +5,6 @@ import ouachousoft.BackEnd0.entity.Pays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ouachousoft.BackEnd0.entity.Ville;
 import ouachousoft.BackEnd0.serviceglobal.PaysService;
 
 import java.util.List;

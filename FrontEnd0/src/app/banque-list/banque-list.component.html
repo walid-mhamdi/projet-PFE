@@ -1,0 +1,28 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <h1 class="mt-5">Liste des Banques</h1>
+  <button class="btn btn-primary mb-3" routerLink="/banque-form">Ajouter une Banque</button>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Code</th>
+      <th>Libellé</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let banque of banques">
+      <td>{{ banque.id }}</td>
+      <td>{{ banque.code }}</td>
+      <td>{{ banque.libelle }}</td>
+      <td>
+        <span style="margin-right: 10px;"></span> <!-- Espace -->
+        <button type="button" class="btn btn-outline-info" [routerLink]="['/banque-form', banque.id]">Modifier</button>
+        <span style="margin-right: 20px;"></span> <!-- Espace -->
+        <button type="button" class="btn btn-outline-danger" (click)="deleteBanque(banque.id)">Supprimer</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

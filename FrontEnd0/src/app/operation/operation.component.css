@@ -1,0 +1,10 @@
+.canvas-container {
+  width: 100%;
+  max-width: 600px; /* Adjust this value as needed */
+  margin: auto;
+}
+
+canvas {
+  width: 100% !important;
+  height: auto !important;
+}

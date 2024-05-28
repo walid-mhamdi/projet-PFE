@@ -1,0 +1,51 @@
+<nav class="navbar navbar-dark navbar-custom fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/home">
+      <img src="D:/11111.jpg" alt="walid" class="navbar-logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-end offcanvas-custom" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" [routerLink]="['/home']">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Administration
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" [routerLink]="['/inscription']">Inscription</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/employee']">Employee</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Référentiel
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" [routerLink]="['/banque-list']">Banque</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/home']">Mode de Paiement</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/pays-list']">Pays</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/ville-list']">Ville</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/operation']">Operation</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/nationalite-list']">Nationalite</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/home']">Qualite</a></li>
+            </ul>
+          </li>
+        </ul>
+        <form class="d-flex mt-3" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success btn-custom-outline" type="submit">Search</button>
+        </form>
+        <button (click)="logout()" type="button" class="btn btn-outline-dark btn-custom-outline mt-3">Déconnexion</button>
+      </div>
+    </div>
+  </div>
+</nav>

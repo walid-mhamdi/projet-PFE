@@ -1,0 +1,27 @@
+<!-- src/app/components/ville-list/ville-list.component.html -->
+<app-navbar></app-navbar>
+<div class="container">
+  <h1 class="mt-5">Liste des Villes</h1>
+  <button class="btn btn-primary mb-3" routerLink="/ville-form">Ajouter une Ville</button>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Code</th>
+      <th>Ville</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let ville of villes">
+      <td>{{ ville.id }}</td>
+      <td>{{ ville.code }}</td>
+      <td>{{ ville.ville }}</td>
+      <td>
+        <button type="button" class="btn btn-outline-info" [routerLink]="['/ville-form', ville.id]">Modifier</button>
+        <button type="button" class="btn btn-outline-danger" (click)="deleteVille(ville.id)">Supprimer</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

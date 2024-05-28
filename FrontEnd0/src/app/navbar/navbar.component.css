@@ -1,0 +1,15 @@
+.navbar-custom {
+
+  background: rgba(0, 77, 77, .9);}
+
+.offcanvas-custom {
+  background: rgba(0, 77, 77, .9);}
+
+.btn-custom-outline {
+  background: rgba(0, 77, 77, .9);}
+
+
+.btn-custom-outline:hover {
+  color: green;
+  background-color: white;
+}

@@ -1,0 +1,16 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <h1 class="mt-5">{{ isEditMode ? 'Modifier' : 'Ajouter' }} une Ville</h1>
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="code">Code</label>
+      <input type="text" id="code" class="form-control" [(ngModel)]="ville.code" name="code" required>
+    </div>
+    <div class="form-group">
+      <label for="ville">Ville</label>
+      <input type="text" id="ville" class="form-control" [(ngModel)]="ville.ville" name="ville" required>
+    </div>
+    <button type="submit" class="btn btn-success">{{ isEditMode ? 'Modifier' : 'Ajouter' }}</button>
+    <button type="button" class="btn btn-secondary" routerLink="/ville-list">Annuler</button>
+  </form>
+</div>

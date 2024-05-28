@@ -1,0 +1,17 @@
+/* styles.css */
+body {
+  padding-top: 56px;
+}
+
+.container {
+  max-width: 500px;
+}
+/* Ajoutez une transition pour le changement de couleur de fond */
+.select-flash {
+  transition: background-color 0.3s ease;
+}
+
+/* Définit la couleur de fond lorsqu'un élément est sélectionné */
+.select-flash:focus {
+  background-color: #ffffff; /* Couleur de fond à modifier selon vos préférences */
+}

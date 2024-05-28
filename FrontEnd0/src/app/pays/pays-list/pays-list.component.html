@@ -1,0 +1,26 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <h1 class="mt-5">Liste des Pays</h1>
+  <button class="btn btn-primary mb-3" routerLink="/pays-form">Ajouter un Pays</button>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Code</th>
+      <th>Pays</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let pays of paysList">
+      <td>{{ pays.id }}</td>
+      <td>{{ pays.code }}</td>
+      <td>{{ pays.libelle }}</td>
+      <td>
+        <button type="button" class="btn btn-outline-info" [routerLink]="['/pays-form', pays.id]">Modifier</button>
+        <button type="button" class="btn btn-outline-danger" (click)="deletePays(pays.id)">Supprimer</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
