@@ -1,24 +1,21 @@
-package ouachousoft.BackEnd0.entity;
+package ouachousoft.BackEnd0.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ouachousoft.BackEnd0.entity.Role;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "nationalite")
-public class Nationalite {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class NationaliteDto {
 
     private String code;
-
     private String libelle;
+    private Role role;
+
+
+
 }

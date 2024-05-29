@@ -5,15 +5,10 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class NotificationService {
-  private subject = new Subject<string>();
+  private messageSource = new Subject<{ text: string, type: string }>();
+  currentMessage = this.messageSource.asObservable();
 
-  constructor() { }
-
-  getMessage(): Subject<string> {
-    return this.subject;
-  }
-
-  sendMessage(message: string): void {
-    this.subject.next(message);
+  changeMessage(message: string, type: string) {
+    this.messageSource.next({ text: message, type: type });
   }
 }

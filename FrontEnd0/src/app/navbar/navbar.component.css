@@ -1,15 +1,39 @@
 .navbar-custom {
-
-  background: rgba(0, 77, 77, .9);}
-
+  background-color: #343a40;
+  padding: 0.5rem 1rem;
+}
+.navbar-logo {
+  height: 40px;
+}
 .offcanvas-custom {
-  background: rgba(0, 77, 77, .9);}
-
+  background-color: rgb(52, 58, 64);
+}
+.nav-link {
+  color: #ffffff !important;
+}
+.nav-link:hover {
+  color: #ffc107 !important;
+}
+.dropdown-menu {
+  background-color: #343a40;
+}
+.dropdown-item {
+  color: #ffffff !important;
+}
+.dropdown-item:hover {
+  background-color: #495057;
+}
 .btn-custom-outline {
-  background: rgba(0, 77, 77, .9);}
-
-
+  color: rgba(145, 57, 57, 0.9);
+  border-color: #ffc107;
+}
 .btn-custom-outline:hover {
-  color: green;
-  background-color: white;
+  background-color: #ffc107;
+  color: #343a40;
+}
+.form-control {
+  border-radius: 0;
+}
+.btn-close {
+  filter: invert(1);
 }

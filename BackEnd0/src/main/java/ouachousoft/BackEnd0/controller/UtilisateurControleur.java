@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ouachousoft.BackEnd0.dto.AuthentificationDTO;
 import ouachousoft.BackEnd0.dto.InscriptionDTO;
+import ouachousoft.BackEnd0.dto.UtilisateurDTO;
 import ouachousoft.BackEnd0.entity.Utilisateur;
 import ouachousoft.BackEnd0.repository.UtilisateurRepository;
 import ouachousoft.BackEnd0.securite.JwtService;
@@ -21,13 +22,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 //@AllArgsConstructor
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-@CrossOrigin(origins = "http://localhost:4200",methods ={ RequestMethod.GET,RequestMethod.DELETE,RequestMethod.POST,RequestMethod.PUT})  // Ajout de cette ligne pour permettre les requêtes CORS depuis localhost:4200
+@RequestMapping()
+@CrossOrigin(origins = "http://localhost:4200",methods ={ RequestMethod.GET,RequestMethod.DELETE,RequestMethod.POST,RequestMethod.PUT})
 
 public class UtilisateurControleur {
 
@@ -36,11 +38,20 @@ public class UtilisateurControleur {
     private final JwtService jwtService;
     private final UtilisateurRepository utilisateurRepository;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/utilisateurs")
-    public List<Utilisateur> getUtilisateurs() {
-        return utilisateurRepository.findAll(); // Cela récupérera tous les utilisateurs de la base de données
+    public ResponseEntity<List<UtilisateurDTO>> getUtilisateurs() {
+        List<Utilisateur> utilisateurs = utilisateurService.getAllUtilisateurs();
+        List<UtilisateurDTO> utilisateurDTOs = utilisateurs.stream()
+                .map(utilisateur -> new UtilisateurDTO(
+                        utilisateur.getId(),
+                        utilisateur.getNom(),
+                        utilisateur.getEmail(),
+                        utilisateur.getRole().getLibelle(),
+                        utilisateur.isActif()))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(utilisateurDTOs);
     }
-
     @PostMapping(path = "/inscription")
     public ResponseEntity<String> inscription(@RequestBody InscriptionDTO inscriptionDTO) {
         try {

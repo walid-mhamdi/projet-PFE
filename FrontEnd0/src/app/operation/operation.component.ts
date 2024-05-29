@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OperationService } from '../services/operation.service';
-import { ChartConfiguration } from 'chart.js';
+import { ChartConfiguration, ChartType } from 'chart.js';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-operation',
@@ -8,33 +9,84 @@ import { ChartConfiguration } from 'chart.js';
   styleUrls: ['./operation.component.css']
 })
 export class OperationComponent implements OnInit {
-  data: ChartConfiguration<'bar'>['data'] = {
+  public lineChartData: ChartConfiguration['data'] = {
     labels: [],
-    datasets: []
+    datasets: [
+      {
+        data: [],
+        label: 'Montant',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        fill: false,
+      }
+    ]
   };
+
+  public lineChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top',
+        labels: {
+          font: {
+            size: 14
+          }
+        }
+      },
+      tooltip: {
+        enabled: true
+      }
+    },
+    scales: {
+      x: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Date'
+        }
+      },
+      y: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Montant'
+        }
+      }
+    }
+  };
+
+  public lineChartType: ChartType = 'line';
 
   constructor(private operationService: OperationService) { }
 
   ngOnInit(): void {
     this.operationService.getAllOperations().subscribe(
       operations => {
-        const cotisationMontants = operations
-          .filter(operation => operation.typeOperation === 'COTISATION')
-          .map(operation => parseFloat(operation.montant));
+        const labels = operations.map(operation => new Date(operation.dateValeur).toLocaleDateString());
+        const dataMontants = operations.map(operation =>
+          operation.typeOperation === 'COTISATION' ? parseFloat(operation.montant) : -parseFloat(operation.montant)
+        );
 
-        const reglementMontants = operations
-          .filter(operation => operation.typeOperation === 'REGLEMENT')
-          .map(operation => -parseFloat(operation.montant));
+        const cumulativeMontants: number[] = dataMontants.reduce((acc: number[], montant: number) => {
+          if (acc.length > 0) {
+            acc.push(acc[acc.length - 1] + montant);
+          } else {
+            acc.push(montant);
+          }
+          return acc;
+        }, []);
 
-        this.data = {
-          labels: ['COTISATION', 'REGLEMENT'],
+        this.lineChartData = {
+          labels: labels,
           datasets: [
             {
+              data: cumulativeMontants,
               label: 'Montant',
-              data: [this.calculateTotal(cotisationMontants), this.calculateTotal(reglementMontants)],
-              backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)'],
-              borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
-              borderWidth: 1
+              borderColor: 'rgba(75, 192, 192, 1)',
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              fill: false,
             }
           ]
         };
@@ -43,9 +95,5 @@ export class OperationComponent implements OnInit {
         console.error('Error fetching operations:', error);
       }
     );
-  }
-
-  calculateTotal(values: number[]): number {
-    return values.reduce((total, value) => total + value, 0);
   }
 }

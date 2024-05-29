@@ -1,30 +1,45 @@
-/* styles.css */
+/* src/app/components/ville-list/ville-list.component.css */
+.content {
+  padding-top: 56px; /* Adjust this value to match the height of your navbar */
+}
+
 body {
   padding-top: 56px;
 }
 
 .container {
-  max-width: 500px;
+  max-width: 600px; /* Increased for better view */
+  margin-top: 2rem;
+  padding: 2rem;
+  background-color: #f8f9fa; /* Light background for contrast */
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1); /* Subtle shadow for depth */
 }
-/* Ajoutez une transition pour le changement de couleur de fond */
+
+/* Input focus effect */
+.form-control:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+/* Logo styling */
+.logo {
+  height: 40px; /* Adjust the height as needed */
+  width: auto;  /* Maintain the image ratio */
+}
+
+/* Ensure the image does not exceed the parent container */
+.navbar-brand {
+  padding: 0; /* Remove default paddings */
+  display: flex; /* For vertical centering if necessary */
+  align-items: center; /* Center the image vertically */
+}
+
 .select-flash {
   transition: background-color 0.3s ease;
 }
 
-/* Définit la couleur de fond lorsqu'un élément est sélectionné */
 .select-flash:focus {
-  background-color: #ffffff; /* Couleur de fond à modifier selon vos préférences */
+  background-color: #ffffff;
 }
-/* CSS pour styliser le logo */
-.logo {
-  height: 40px; /* Ajustez la hauteur selon vos besoins */
-  width: auto;  /* Maintient le ratio de l'image */
-}
-
-/* Assurez-vous que l'image ne dépasse pas le conteneur parent */
-.navbar-brand {
-  padding: 0; /* Supprime les paddings par défaut */
-  display: flex; /* Pour centrer verticalement si nécessaire */
-  align-items: center; /* Centre l'image verticalement */
-}
-

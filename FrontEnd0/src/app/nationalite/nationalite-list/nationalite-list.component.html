@@ -1,26 +1,30 @@
 <app-navbar></app-navbar>
-<div class="container">
-  <h1 class="mt-5">Liste des Nationalités</h1>
-  <button class="btn btn-primary mb-3" routerLink="/nationalite-form">Ajouter une Nationalité</button>
-  <table class="table table-bordered">
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Code</th>
-      <th>Libellé</th>
-      <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let nationalite of nationalites">
-      <td>{{ nationalite.id }}</td>
-      <td>{{ nationalite.code }}</td>
-      <td>{{ nationalite.libelle }}</td>
-      <td>
-        <button type="button" class="btn btn-outline-info" [routerLink]="['/nationalite-form', nationalite.id]">Modifier</button>
-        <button type="button" class="btn btn-outline-danger" (click)="deleteNationalite(nationalite.id)">Supprimer</button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+<div class="content">
+  <div class="container">
+    <h1 class="mt-5">Liste des Nationalités</h1>
+    <button class="btn btn-primary mb-3" routerLink="/nationalite-form">Ajouter une Nationalité</button>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Code</th>
+          <th>Libellé</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let nationalite of nationalites">
+          <td>{{ nationalite.id }}</td>
+          <td>{{ nationalite.code }}</td>
+          <td>{{ nationalite.libelle }}</td>
+          <td>
+            <button type="button" class="btn btn-outline-info btn-sm" [routerLink]="['/nationalite-form', nationalite.id]">Modifier</button>
+            <button type="button" class="btn btn-outline-danger btn-sm" (click)="deleteNationalite(nationalite.id)">Supprimer</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

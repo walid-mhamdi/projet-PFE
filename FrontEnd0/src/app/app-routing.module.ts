@@ -7,7 +7,6 @@ import {ForgotPasswordComponent} from "./forgot-password/forgot-password.compone
 import {InscriptionComponent} from "./inscription/inscription.component";
 import {HomeComponent} from "./home/home.component";
 import {NavbarComponent} from "./navbar/navbar.component";
-import {EmployeeComponent} from "./employee/employee.component";
 import {BanqueFormComponent} from "./banque-form/banque-form.component";
 import {BanqueListComponent} from "./banque-list/banque-list.component";
 import {LayoutComponent} from "./layout/layout.component";
@@ -18,14 +17,17 @@ import {VilleListComponent} from "./ville/ville-list/ville-list.component";
 import {PaysFormComponent} from "./pays/pays-form/pays-form.component";
 import {PaysListComponent} from "./pays/pays-list/pays-list.component";
 import {OperationComponent} from "./operation/operation.component";
+import {NotificationComponent} from "./notification/notification.component";
+import {EmployeeListComponent} from "./employee-list/employee-list.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'home', component: HomeComponent, canActivate:[authGuard]  },
   { path: 'navbar', component: NavbarComponent, canActivate:[authGuard]  },
   { path: 'inscription', component: InscriptionComponent, canActivate:[authGuard]  },
-  { path: 'employee', component: EmployeeComponent, canActivate:[authGuard]  },
   { path: 'banque', component: BanqueListComponent, canActivate:[authGuard]},
+
+  {path:'employee-list',component:EmployeeListComponent, canActivate : [authGuard] },
 
   { path: 'banque-form/:id', component: BanqueFormComponent, canActivate:[authGuard] },
   { path: 'banque-form', component: BanqueFormComponent, canActivate:[authGuard] },
@@ -46,6 +48,7 @@ const routes: Routes = [
 
 
   {path: 'layout',component:LayoutComponent, canActivate:[authGuard]},
+  {path: 'notification',component:NotificationComponent},
 
   {path: 'login',component:LoginComponent},
   {path: 'password-reset' ,component: PasswordResetComponent},

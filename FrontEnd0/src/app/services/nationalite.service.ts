@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {catchError, Observable, throwError} from 'rxjs';
 import { Nationalite } from '../models/nationalite.model';
 
 @Injectable({
@@ -29,6 +29,13 @@ export class NationaliteService {
   }
 
   deleteNationalite(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.error('An error occurred:', error.error.message); // Log error message
+    return throwError('Something went wrong; please try again later.'); // Throw a user-friendly error message
   }
 }

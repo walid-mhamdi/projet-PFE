@@ -1,4 +1,8 @@
 /* styles.css */
+.content {
+  padding-top: 56px; /* Adjust this value to match the height of your navbar */
+}
+
 body {
   padding-top: 56px;
 }
