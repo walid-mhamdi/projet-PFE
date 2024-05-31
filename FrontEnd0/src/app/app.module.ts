@@ -60,7 +60,8 @@ import { EmployeeListComponent } from './employee-list/employee-list.component';
         HttpClientModule,
         NgChartsModule,
         BrowserAnimationsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+
     ],
   providers: [],
   bootstrap: [AppComponent]

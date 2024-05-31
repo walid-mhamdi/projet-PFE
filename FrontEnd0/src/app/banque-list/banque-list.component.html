@@ -3,7 +3,13 @@
   <div class="container">
     <h1 class="mt-5">Liste des Banques</h1>
     <button class="btn btn-primary mb-3" routerLink="/banque-form">Ajouter une Banque</button>
-    <div class="table-responsive">
+
+    <!-- Progress Bar -->
+    <div *ngIf="isLoading" class="progress mb-3">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+    </div>
+
+    <div class="table-responsive" *ngIf="!isLoading">
       <table class="table table-hover table-striped">
         <thead class="table-dark">
         <tr>

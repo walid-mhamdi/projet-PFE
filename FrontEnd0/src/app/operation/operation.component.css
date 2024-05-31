@@ -1,10 +1,15 @@
 .content {
   padding-top: 56px; /* Adjust this value to match the height of your navbar */
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: calc(100vh - 56px); /* Full height minus the navbar height */
   background-color: #f8f9fa; /* Light background for better visibility */
+}
+
+.form-container {
+  margin-bottom: 20px; /* Add some spacing below the form */
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
 }
 
 .canvas-container {
@@ -13,7 +18,7 @@
   margin: auto;
   padding: 20px; /* Add some padding for better appearance */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for better visibility */
-  background-color: #fff; /* Background color for the chart container */
+  background-color: rgb(255, 255, 255); /* Background color for the chart container */
   border-radius: 10px; /* Rounded corners */
 }
 

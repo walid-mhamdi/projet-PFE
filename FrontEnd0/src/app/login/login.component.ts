@@ -27,11 +27,15 @@ export class LoginComponent {
   login() {
     if (this.isValidEmail(this.email)) {
       this.authService.login(this.email, this.password).subscribe({
-        next: () => {
-          this.router.navigate(['/home']);
+        next: (response) => {
+          if (response.message === 'Connecté') {
+            this.router.navigate(['/operation']);
+          } else {
+            this.errorMessage = response.message;
+          }
         },
-        error: () => {
-          this.errorMessage = 'Échec de la connexion. Veuillez vérifier vos identifiants.';
+        error: (error) => {
+          this.errorMessage = error.message;
         }
       });
     } else {

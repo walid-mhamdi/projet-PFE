@@ -1,4 +1,3 @@
-<!-- src/app/components/ville-list/ville-list.component.html -->
 <app-navbar></app-navbar>
 <div class="content">
   <div class="container">
@@ -14,7 +13,7 @@
           <th>Actions</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody [@listAnimation]>
         <tr *ngFor="let ville of villes">
           <td>{{ ville.id }}</td>
           <td>{{ ville.code }}</td>

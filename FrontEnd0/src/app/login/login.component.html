@@ -12,6 +12,7 @@
               <div class="login" *ngIf="isLoginTab">
                 <div class="group">
                   <label for="email" class="label form-label">Email</label>
+
                   <input id="email" type="text" class="input" placeholder="Enter your email" [(ngModel)]="email">
                 </div>
                 <div class="group">
@@ -22,6 +23,9 @@
                   <input id="check" type="checkbox" class="check" checked>
                   <label for="check"><span class="icon"></span> Keep me Signed in</label>
                 </div>
+                <div *ngIf="errorMessage" class="error-message">
+                  {{ errorMessage }}
+                </div>
                 <div class="group">
                   <button (click)="login()" class="button">Login</button>
                 </div>
@@ -29,6 +33,7 @@
                 <div class="foot">
                   <a routerLink="/forgot-password">Forgot Password?</a>
                 </div>
+
               </div>
 
             </div>

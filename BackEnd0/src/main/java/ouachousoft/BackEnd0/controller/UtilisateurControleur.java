@@ -18,10 +18,7 @@ import ouachousoft.BackEnd0.repository.UtilisateurRepository;
 import ouachousoft.BackEnd0.securite.JwtService;
 import ouachousoft.BackEnd0.service.UtilisateurService;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -96,27 +93,34 @@ public class UtilisateurControleur {
 
     @PostMapping(path = "connexion")
     public ResponseEntity<Map<String, String>> connexion(@RequestBody AuthentificationDTO authentificationDTO) {
+        Optional<Utilisateur> utilisateurOptional = utilisateurRepository.findByEmail(authentificationDTO.email());
+
+        if (utilisateurOptional.isEmpty()) {
+            // Email does not exist
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("message", "Email incorrect"));
+        }
+
         try {
-            final Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authentificationDTO.email(), authentificationDTO.password()));
+            final Authentication authenticate = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(authentificationDTO.email(), authentificationDTO.password()));
 
             if (authenticate.isAuthenticated()) {
                 Map<String, String> response = this.jwtService.generate(authentificationDTO.email());
                 response = new HashMap<>(response); // Create a mutable copy
                 response.put("message", "Connecté");
                 return ResponseEntity.ok(response);
-
             } else {
                 // Authentication failed due to other reasons
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("message", "Erreur d'authentification"));
             }
         } catch (BadCredentialsException e) {
-            // Invalid email or password
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("message", "Email ou mot de passe incorrect"));
+            // Password is incorrect
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("message", "Mot de passe incorrect"));
         }
     }
 
 
-    @PostMapping(path = "deconnexion")
+            @PostMapping(path = "deconnexion")
     public void deconnexion() {
         this.jwtService.deconnexion();
     }

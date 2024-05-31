@@ -44,7 +44,7 @@ const routes: Routes = [
   { path: 'nationalite-form/:id', component: NationaliteFormComponent, canActivate:[authGuard]},
   { path: 'nationalite-form', component: NationaliteFormComponent, canActivate:[authGuard]},
   { path: 'nationalite-list', component: NationaliteListComponent, canActivate:[authGuard]},
-  {path: 'operation', component:OperationComponent, canActivate:[authGuard]},
+  {path: 'operation', component:OperationComponent},
 
 
   {path: 'layout',component:LayoutComponent, canActivate:[authGuard]},

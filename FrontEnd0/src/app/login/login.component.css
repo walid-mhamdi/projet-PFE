@@ -1,4 +1,12 @@
 /* Styles existants */
+
+
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
 .app {
   margin: 0;
   color: #6a6f8c;

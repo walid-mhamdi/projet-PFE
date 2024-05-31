@@ -1,4 +1,15 @@
 /* Add a top padding to .content equal to the height of the navbar */
+
+
+/* Add this to your component's CSS file */
+.progress {
+  height: 20px;
+}
+
+.progress-bar {
+  background-color: #007bff; /* Bootstrap primary color */
+}
+
 .content {
   padding-top: 56px; /* Adjust this value to match the height of your navbar */
   background-color: #f8f9fa; /* Light background for better visibility */
