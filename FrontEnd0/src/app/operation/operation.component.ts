@@ -233,6 +233,11 @@ export class OperationComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (!this.newOperation.montant || !this.newOperation.typeOperation) {
+      alert('Veuillez remplir tous les champs obligatoires.');
+      return;
+    }
+
     this.newOperation.dateValeur = new Date();
     this.operationService.saveOperation(this.newOperation).subscribe(
       operation => {
