@@ -47,6 +47,7 @@ import { EmployeeListComponent } from './employee-list/employee-list.component';
     OperationComponent,
     NotificationComponent,
     EmployeeListComponent,
+
   ],
     imports: [
       ToastrModule.forRoot({

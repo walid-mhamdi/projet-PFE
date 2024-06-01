@@ -111,6 +111,9 @@ export class OperationComponent implements OnInit {
     typeOperation: 'COTISATION'
   };
 
+  public cumulativeCotisation: number = 0;
+  public cumulativeReglement: number = 0;
+
   constructor(private operationService: OperationService) { }
 
   ngOnInit(): void {
@@ -224,6 +227,9 @@ export class OperationComponent implements OnInit {
         }
       ]
     };
+
+    this.cumulativeCotisation = cumulativeCotisations[cumulativeCotisations.length - 1];
+    this.cumulativeReglement = cumulativeReglements[cumulativeReglements.length - 1];
   }
 
   onSubmit(): void {

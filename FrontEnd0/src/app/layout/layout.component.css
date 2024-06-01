@@ -1,31 +1,103 @@
-body {
+
+  /* Style pour la section du haut */
+.top-section {
+  width: 100%;
+}
+@media only screen and (max-width: 1600px) {
+  .top-section {
+    width: 1280px;
+  }
+}
+@media only screen and (max-width: 1500px) {
+  .top-section {
+    width: 1180px;
+  }
+}
+@media only screen and (max-width: 1400px) {
+  .top-section {
+    width: 1080px;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .top-section {
+    width: 980px;
+  }
+}
+
+/* Style pour la section du milieu */
+.middle-section {
   display: flex;
-  height: 100vh;
-  overflow: hidden;
+  justify-content: space-between;
+  width: 100%;
+}
+@media only screen and (max-width: 1600px) {
+  .middle-section {
+    width: 1280px;
+  }
+}
+@media only screen and (max-width: 1500px) {
+  .middle-section {
+    width: 1180px;
+  }
+}
+@media only screen and (max-width: 1400px) {
+  .middle-section {
+    width: 1080px;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .middle-section {
+    width: 980px;
+  }
+}
+.middle-section .widget {
+  height: 350px;
+  background-color: #fff;
+  border-radius: 5px;
+  margin: 10px;
+  box-shadow: 5px 5px 5px #939393;
+}
+.middle-section .widget.left {
+  flex: 1 1 60%;
+}
+.middle-section .widget.right {
+  flex: 1 1 35%;
 }
 
-.sidebar {
-  width: 250px;
-  flex-shrink: 0;
-  background-color: #f8f9fa;
+/* Style pour la section du bas */
+.bottom-section {
+  display: flex;
+  justify-content: space-between;
+}
+.bottom-section .widget {
+  height: 250px;
+  background-color: #fff;
+  border-radius: 5px;
+  margin: 10px;
+  box-shadow: 5px 5px 5px #939393;
+}
+.bottom-section .widget.left,
+.bottom-section .widget.right {
+  flex: 1 1 45%;
 }
 
-.main-content {
-  flex-grow: 1;
-  overflow-y: auto;
-  padding: 20px;
+@media only screen and (max-width: 1600px) {
+  .bottom-section .widget {
+    flex: 1 1 40%;
+  }
 }
-
-.bd-placeholder-img {
-  font-size: 1.125rem;
-  text-anchor: middle;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
+@media only screen and (max-width: 1500px) {
+  .bottom-section .widget {
+    flex: 1 1 35%;
+  }
 }
-
-@media (min-width: 768px) {
-  .bd-placeholder-img-lg {
-    font-size: 3.5rem;
+@media only screen and (max-width: 1400px) {
+  .bottom-section .widget {
+    flex: 1 1 30%;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .bottom-section .widget {
+    flex: 1 1 25%;
   }
 }

@@ -29,9 +29,9 @@ const routes: Routes = [
 
   {path:'employee-list',component:EmployeeListComponent, canActivate : [authGuard] },
 
-  { path: 'banque-form/:id', component: BanqueFormComponent, canActivate:[authGuard] },
-  { path: 'banque-form', component: BanqueFormComponent, canActivate:[authGuard] },
-  { path: 'banque-list', component: BanqueListComponent, canActivate:[authGuard] },
+  { path: 'banque-form/:id', component: BanqueFormComponent },
+  { path: 'banque-form', component: BanqueFormComponent },
+  { path: 'banque-list', component: BanqueListComponent },
 
   { path: 'ville-form/:id', component: VilleFormComponent, canActivate:[authGuard] },
   { path: 'ville-form', component: VilleFormComponent, canActivate:[authGuard] },
@@ -45,6 +45,7 @@ const routes: Routes = [
   { path: 'nationalite-form', component: NationaliteFormComponent, canActivate:[authGuard]},
   { path: 'nationalite-list', component: NationaliteListComponent, canActivate:[authGuard]},
   {path: 'operation', component:OperationComponent},
+  {path: 'layout', component:LayoutComponent},
 
 
   {path: 'layout',component:LayoutComponent, canActivate:[authGuard]},

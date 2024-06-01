@@ -37,3 +37,30 @@
 .btn-close {
   filter: invert(1);
 }
+.navbar-custom {
+  background-color: #343a40;
+}
+
+.navbar-logo {
+  height: 30px;
+}
+
+.btn-custom-outline {
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+.navbar-text {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-text .fa-user-shield {
+  margin-right: 5px;
+}
+.dropdown-menu.show-always {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: static !important;
+}

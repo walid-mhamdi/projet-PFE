@@ -136,4 +136,5 @@ public class JwtService {
         log.info("Suppression des tokens à {}", Instant.now());
         this.jwtRepository.deleteAllByExpireAndDesactive(true, true);
     }
+
 }

@@ -1,33 +1,42 @@
+<div class="top-section">
+  <app-navbar></app-navbar>
+</div>
 
-<app-navbar></app-navbar>
-<div class="container-fluid content">
-  <div class="row">
-    <div class="col-md-4 left-column">
-      <div class="form-container">
-        <form (ngSubmit)="onSubmit()">
-          <div class="form-group mb-3">
-            <label for="montant" class="form-label">Montant</label>
-            <input type="number" id="montant" [(ngModel)]="newOperation.montant" name="montant" class="form-control" required>
-          </div>
-          <div class="form-group mb-3">
-            <label for="typeOperation" class="form-label">Type d'Opération</label>
-            <select id="typeOperation" [(ngModel)]="newOperation.typeOperation" name="typeOperation" class="form-select" required>
-              <option value="COTISATION">COTISATION</option>
-              <option value="REGLEMENT">REGLEMENT</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-primary">Ajouter</button>
-        </form>
-      </div>
+<div class="middle-section">
+  <div class="widget left card">
+    <div class="card-content">
+      <div class="card-title">Cumul Cotisation</div>
+      <div class="card-value">{{ cumulativeCotisation | currency }}</div>
+      <div class="card-percentage positive">+14%</div>
     </div>
-    <div class="col-md-8 right-column">
-      <div class="canvas-container">
-        <canvas baseChart
-                [data]="lineChartData"
-                [options]="lineChartOptions"
-                [type]="lineChartType">
-        </canvas>
-      </div>
+  </div>
+  <div class="widget left card">
+    <div class="card-content">
+      <div class="card-title">Cumul Règlement</div>
+      <div class="card-value">{{ cumulativeReglement | currency }}</div>
+      <div class="card-percentage negative">-8%</div>
     </div>
+  </div>
+  <div class="widget right">
+    <form (ngSubmit)="onSubmit()" class="custom-form medium-form">
+      <div class="form-group mb-3">
+        <label for="montant" class="form-label">Montant</label>
+        <input type="number" id="montant" [(ngModel)]="newOperation.montant" name="montant" class="form-control" required>
+      </div>
+      <div class="form-group mb-3">
+        <label for="typeOperation" class="form-label">Type d'Opération</label>
+        <select id="typeOperation" [(ngModel)]="newOperation.typeOperation" name="typeOperation" class="form-select" required>
+          <option value="COTISATION">COTISATION</option>
+          <option value="REGLEMENT">REGLEMENT</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Ajouter</button>
+    </form>
+  </div>
+</div>
+
+<div class="bottom-section">
+  <div class="widget left">
+    <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="lineChartType"></canvas>
   </div>
 </div>

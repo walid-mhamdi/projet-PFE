@@ -1,28 +1,156 @@
+/* Style global pour le contenu */
 .content {
-  padding-top: 56px; /* Adjust this value to match the height of your navbar */
-  height: calc(100vh - 56px); /* Full height minus the navbar height */
-  background-color: #f8f9fa; /* Light background for better visibility */
+  padding-top: 50px; /* Ajustez cette valeur pour correspondre à la hauteur de votre navbar */
+  height: calc(100vh - 56px); /* Hauteur complète moins la hauteur de la navbar */
+  background-color: #f8f9fa; /* Fond clair pour une meilleure visibilité */
 }
 
+/* Style pour les formulaires */
 .form-container {
-  margin-bottom: 20px; /* Add some spacing below the form */
+  margin-bottom: 20px; /* Ajoute de l'espacement sous le formulaire */
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: rgb(255, 255, 255);
+  background-color: #fff;
   border-radius: 10px;
 }
 
+/* Style pour les sections contenant des graphiques */
 .canvas-container {
   width: 100%;
-  max-width: 600px; /* Adjust this value as needed */
+  max-width: 800px; /* Augmenté pour plus de lisibilité */
   margin: auto;
-  padding: 20px; /* Add some padding for better appearance */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for better visibility */
-  background-color: rgb(255, 255, 255); /* Background color for the chart container */
-  border-radius: 10px; /* Rounded corners */
+  padding: 20px; /* Ajoute du padding pour une meilleure apparence */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ajoute une ombre subtile pour une meilleure visibilité */
+  background-color: #fff; /* Couleur de fond pour le conteneur de graphiques */
+  border-radius: 10px; /* Coins arrondis */
 }
 
 canvas {
   width: 100% !important;
   height: auto !important;
+}
+
+/* Style pour la section supérieure */
+.top-section {
+  width: 100%;
+}
+@media only screen and (max-width: 1600px) {
+  .top-section {
+    width: 1280px;
+  }
+}
+@media only screen and (max-width: 1500px) {
+  .top-section {
+    width: 1180px;
+  }
+}
+@media only screen and (max-width: 1400px) {
+  .top-section {
+    width: 1080px;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .top-section {
+    width: 980px;
+  }
+}
+
+/* Style pour la section inférieure */
+.bottom-section {
+  display: flex;
+  justify-content: center; /* Centrer le widget horizontalement */
+  align-items: center; /* Centrer le widget verticalement */
+  height: 90vh; /* Augmente la hauteur pour plus de lisibilité */
+  background-color: #f8f9fa; /* Fond clair pour une meilleure visibilité */
+}
+
+.bottom-section .widget {
+  width: 100%; /* Augmente la largeur du widget pour plus de lisibilité */
+  height: 80%; /* Prend toute la hauteur disponible */
+  background-color: #fff;
+  border-radius: 10px; /* Coins arrondis */
+  margin: 20px; /* Espace autour du widget */
+  box-shadow: 5px 5px 5px #939393;
+}
+
+/* Style pour la section centrale */
+.middle-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25vh;
+  background-color: #f8f9fa;
+}
+
+.widget {
+  margin: 20px; /* Ajoute de l'espace entre les widgets */
+}
+
+.widget.right {
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 1px;
+  padding: 1px; /* Augmente le padding pour plus d'espace intérieur */
+}
+
+.card {
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  width: 250px; /* Ajustez la largeur selon vos besoins */
+  text-align: center;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-title {
+  font-size: 1px;
+  color: #6c757d;
+}
+
+.card-value {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 1px 0;
+}
+
+.card-percentage {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.card-percentage.positive {
+  color: #28a745; /* Couleur verte pour les valeurs positives */
+}
+
+.card-percentage.negative {
+  color: #dc3545; /* Couleur rouge pour les valeurs négatives */
+}
+
+.custom-form {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 2rem; /* Ajoute de l'espace entre les champs du formulaire */
+}
+
+/* Classes pour ajuster la taille */
+.small-form {
+  max-width: 50px;
+}
+
+.medium-form {
+  max-width: 250px;
+}
+
+.large-form {
+  max-width: 700px;
 }
