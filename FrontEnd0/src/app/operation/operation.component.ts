@@ -130,7 +130,6 @@ export class OperationComponent implements OnInit {
       }
     );
   }
-
   updateChartData(operations: Operation[]): void {
     const labels = operations.map(operation => {
       const date = new Date(operation.dateValeur);
@@ -143,9 +142,6 @@ export class OperationComponent implements OnInit {
     const dataMontantsTotal = operations.map(operation =>
       operation.typeOperation === 'COTISATION' ? parseFloat(operation.montant) : -parseFloat(operation.montant)
     );
-    const dataCotisations = cotisations.map(operation => parseFloat(operation.montant));
-    const dataReglements = reglements.map(operation => parseFloat(operation.montant));
-
     const completeCotisations = operations.map(operation =>
       operation.typeOperation === 'COTISATION' ? parseFloat(operation.montant) : 0
     );
@@ -180,11 +176,16 @@ export class OperationComponent implements OnInit {
       return acc;
     }, []);
 
+    const recentLabels = labels.slice(-10);
+    const recentCumulativeMontants = cumulativeMontants.slice(-10);
+    const recentCumulativeCotisations = cumulativeCotisations.slice(-10);
+    const recentCumulativeReglements = cumulativeReglements.slice(-10);
+
     this.lineChartData = {
-      labels: labels,
+      labels: recentLabels,
       datasets: [
         {
-          data: cumulativeMontants,
+          data: recentCumulativeMontants,
           label: 'Montant Total',
           borderColor: 'rgba(75, 192, 192, 1)',
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -198,7 +199,7 @@ export class OperationComponent implements OnInit {
           showLine: true
         },
         {
-          data: cumulativeCotisations,
+          data: recentCumulativeCotisations,
           label: 'Cumul Cotisation',
           borderColor: 'rgba(54, 162, 235, 1)',
           backgroundColor: 'rgba(54, 162, 235, 0.2)',
@@ -212,7 +213,7 @@ export class OperationComponent implements OnInit {
           showLine: true
         },
         {
-          data: cumulativeReglements,
+          data: recentCumulativeReglements,
           label: 'Cumul Règlement',
           borderColor: 'rgba(255, 99, 132, 1)',
           backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -228,9 +229,10 @@ export class OperationComponent implements OnInit {
       ]
     };
 
-    this.cumulativeCotisation = cumulativeCotisations[cumulativeCotisations.length - 1];
-    this.cumulativeReglement = cumulativeReglements[cumulativeReglements.length - 1];
+    this.cumulativeCotisation = recentCumulativeCotisations[recentCumulativeCotisations.length - 1];
+    this.cumulativeReglement = recentCumulativeReglements[recentCumulativeReglements.length - 1];
   }
+
 
   onSubmit(): void {
     if (!this.newOperation.montant || !this.newOperation.typeOperation) {
