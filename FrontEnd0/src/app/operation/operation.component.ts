@@ -114,6 +114,12 @@ export class OperationComponent implements OnInit {
   public cumulativeCotisation: number = 0;
   public cumulativeReglement: number = 0;
 
+  // Variables pour stocker toutes les données
+  private allLabels: any[] = [];
+  private allCumulativeMontants: number[] = [];
+  private allCumulativeCotisations: number[] = [];
+  private allCumulativeReglements: number[] = [];
+
   constructor(private operationService: OperationService) { }
 
   ngOnInit(): void {
@@ -130,8 +136,9 @@ export class OperationComponent implements OnInit {
       }
     );
   }
+
   updateChartData(operations: Operation[]): void {
-    const labels = operations.map(operation => {
+    this.allLabels = operations.map(operation => {
       const date = new Date(operation.dateValeur);
       return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
     });
@@ -149,7 +156,7 @@ export class OperationComponent implements OnInit {
       operation.typeOperation === 'REGLEMENT' ? parseFloat(operation.montant) : 0
     );
 
-    const cumulativeMontants: number[] = dataMontantsTotal.reduce((acc: number[], montant: number) => {
+    this.allCumulativeMontants = dataMontantsTotal.reduce((acc: number[], montant: number) => {
       if (acc.length > 0) {
         acc.push(acc[acc.length - 1] + montant);
       } else {
@@ -158,7 +165,7 @@ export class OperationComponent implements OnInit {
       return acc;
     }, []);
 
-    const cumulativeCotisations: number[] = completeCotisations.reduce((acc: number[], montant: number) => {
+    this.allCumulativeCotisations = completeCotisations.reduce((acc: number[], montant: number) => {
       if (acc.length > 0) {
         acc.push(acc[acc.length - 1] + montant);
       } else {
@@ -167,7 +174,7 @@ export class OperationComponent implements OnInit {
       return acc;
     }, []);
 
-    const cumulativeReglements: number[] = completeReglements.reduce((acc: number[], montant: number) => {
+    this.allCumulativeReglements = completeReglements.reduce((acc: number[], montant: number) => {
       if (acc.length > 0) {
         acc.push(acc[acc.length - 1] + montant);
       } else {
@@ -176,10 +183,11 @@ export class OperationComponent implements OnInit {
       return acc;
     }, []);
 
-    const recentLabels = labels.slice(-10);
-    const recentCumulativeMontants = cumulativeMontants.slice(-10);
-    const recentCumulativeCotisations = cumulativeCotisations.slice(-10);
-    const recentCumulativeReglements = cumulativeReglements.slice(-10);
+    // Mettre à jour les 10 dernières entrées pour l'affichage
+    const recentLabels = this.allLabels.slice(-10);
+    const recentCumulativeMontants = this.allCumulativeMontants.slice(-10);
+    const recentCumulativeCotisations = this.allCumulativeCotisations.slice(-10);
+    const recentCumulativeReglements = this.allCumulativeReglements.slice(-10);
 
     this.lineChartData = {
       labels: recentLabels,
@@ -233,7 +241,6 @@ export class OperationComponent implements OnInit {
     this.cumulativeReglement = recentCumulativeReglements[recentCumulativeReglements.length - 1];
   }
 
-
   onSubmit(): void {
     if (!this.newOperation.montant || !this.newOperation.typeOperation) {
       alert('Veuillez remplir tous les champs obligatoires.');
@@ -250,5 +257,34 @@ export class OperationComponent implements OnInit {
         console.error('Error saving operation:', error);
       }
     );
+  }
+
+  downloadCSV(): void {
+    const csvData = this.convertToCSV(this.allLabels, [
+      { data: this.allCumulativeMontants },
+      { data: this.allCumulativeCotisations },
+      { data: this.allCumulativeReglements }
+    ]);
+    const blob = new Blob([csvData], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.setAttribute('style', 'display:none');
+    a.href = url;
+    a.download = 'operations.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  private convertToCSV(labels: any[], datasets: any[]): string {
+    let csv = 'Date et Heure, Montant Total, Cumul Cotisation, Cumul Règlement\n';
+    for (let i = 0; i < labels.length; i++) {
+      const montantTotal = datasets[0]?.data[i] ?? '';
+      const cumulCotisation = datasets[1]?.data[i] ?? '';
+      const cumulReglement = datasets[2]?.data[i] ?? '';
+
+      csv += `${labels[i]}, ${montantTotal}, ${cumulCotisation}, ${cumulReglement}\n`;
+    }
+    return csv;
   }
 }
