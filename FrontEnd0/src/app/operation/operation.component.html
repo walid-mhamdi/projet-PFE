@@ -7,14 +7,18 @@
     <div class="card-content">
       <div class="card-title">Cumul Cotisation</div>
       <div class="card-value">{{ cumulativeCotisation | currency }}</div>
-      <div class="card-percentage positive">+14%</div>
+      <div class="card-percentage" [ngClass]="{'positive': cotisationPercentage >= 0, 'negative': cotisationPercentage < 0}">
+        {{ cotisationPercentage | number:'1.0-2' }}%
+      </div>
     </div>
   </div>
   <div class="widget left card">
     <div class="card-content">
       <div class="card-title">Cumul Règlement</div>
       <div class="card-value">{{ cumulativeReglement | currency }}</div>
-      <div class="card-percentage negative">-8%</div>
+      <div class="card-percentage" [ngClass]="{ 'negative': reglementPercentage >= 0}">
+        {{ reglementPercentage | number:'1.0-2' }}%
+      </div>
     </div>
   </div>
   <div class="widget right">
@@ -30,9 +34,11 @@
           <option value="REGLEMENT">REGLEMENT</option>
         </select>
       </div>
-      <button type="submit" class="btn btn-primary">Ajouter</button>
+      <div class="button-container">
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+        <button type="button" (click)="downloadCSV()" class="btn btn-secondary">Télécharger</button>
+      </div>
     </form>
-    <button (click)="downloadCSV()">Télécharger les données en Excel</button>
   </div>
 </div>
 

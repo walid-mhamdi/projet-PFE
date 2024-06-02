@@ -113,6 +113,8 @@ export class OperationComponent implements OnInit {
 
   public cumulativeCotisation: number = 0;
   public cumulativeReglement: number = 0;
+  public cotisationPercentage: number = 0;
+  public reglementPercentage: number = 0;
 
   // Variables pour stocker toutes les données
   private allLabels: any[] = [];
@@ -130,6 +132,7 @@ export class OperationComponent implements OnInit {
     this.operationService.getAllOperations().subscribe(
       operations => {
         this.updateChartData(operations);
+        this.calculatePercentages();
       },
       error => {
         console.error('Error fetching operations:', error);
@@ -239,6 +242,20 @@ export class OperationComponent implements OnInit {
 
     this.cumulativeCotisation = recentCumulativeCotisations[recentCumulativeCotisations.length - 1];
     this.cumulativeReglement = recentCumulativeReglements[recentCumulativeReglements.length - 1];
+  }
+
+  calculatePercentages(): void {
+    const previousCotisation = this.allCumulativeCotisations[this.allCumulativeCotisations.length - 2] || 0;
+    const currentCotisation = this.cumulativeCotisation;
+    this.cotisationPercentage = previousCotisation !== 0
+      ? ((currentCotisation - previousCotisation) / previousCotisation) * 100
+      : currentCotisation !== 0 ? 100 : 0;
+
+    const previousReglement = this.allCumulativeReglements[this.allCumulativeReglements.length - 2] || 0;
+    const currentReglement = this.cumulativeReglement;
+    this.reglementPercentage = previousReglement !== 0
+      ? ((currentReglement - previousReglement) / previousReglement) * 100
+      : currentReglement !== 0 ? 100 : 0;
   }
 
   onSubmit(): void {
